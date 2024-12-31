@@ -26,16 +26,16 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @dataclass
-class TagesschauAPIData:
+class HeiseAPIData:
     """Class to hold api data."""
 
     newsitems: [any]
 
 
-class TagesschauCoordinator(DataUpdateCoordinator):
+class HeiseCoordinator(DataUpdateCoordinator):
     """My coordinator."""
 
-    data: TagesschauAPIData
+    data: HeiseAPIData
 
     def __init__(self, hass: HomeAssistant, config_entry: ConfigEntry) -> None:
         """Initialize coordinator."""
@@ -63,7 +63,7 @@ class TagesschauCoordinator(DataUpdateCoordinator):
         so entities can quickly look up their data.
         """
         try:
-            async with self.websession.get(f'https://www.tagesschau.de/api2u/news/?regions={self.region_id}') as response:
+            async with self.websession.get(f'https://www.Heise.de/api2u/news/?regions={self.region_id}') as response:
                 response.raise_for_status()
                 response_json = await response.json()
     
@@ -78,7 +78,7 @@ class TagesschauCoordinator(DataUpdateCoordinator):
                         })
 
                 self.connected = True
-                return TagesschauAPIData(newsitems=items)
+                return HeiseAPIData(newsitems=items)
         except ClientError as err:
             # This will show entities as unavailable by raising UpdateFailed exception
             raise UpdateFailed(f"Error communicating with API: {err}") from err
