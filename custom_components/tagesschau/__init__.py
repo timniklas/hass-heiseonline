@@ -12,7 +12,7 @@ from homeassistant.helpers.device_registry import DeviceEntry
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
-from .coordinator import TagesschauCoordinator
+from .coordinator import HeiseCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
 
     # Initialise the coordinator that manages data updates from your api.
     # This is defined in coordinator.py
-    coordinator = TagesschauCoordinator(hass, config_entry)
+    coordinator = HeiseCoordinator(hass, config_entry)
 
     # Perform an initial data load from api.
     # async_config_entry_first_refresh() is special in that it does not log errors if it fails
