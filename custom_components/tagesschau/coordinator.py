@@ -41,7 +41,7 @@ class HeiseCoordinator(DataUpdateCoordinator):
         """Initialize coordinator."""
 
         # Set variables from values entered in config flow setup
-        self.url = config_entry.data[CONF_URL]
+        self._url = config_entry.data[CONF_URL]
 
         # Initialise DataUpdateCoordinator
         super().__init__(
@@ -54,7 +54,7 @@ class HeiseCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=60),
         )
         self.connected: bool = False
-        self.websession = async_get_clientsession(hass)
+        self._hass = hass
 
     async def async_update_data(self):
         """Fetch data from API endpoint.
@@ -63,7 +63,7 @@ class HeiseCoordinator(DataUpdateCoordinator):
         so entities can quickly look up their data.
         """
         try:
-            feed = feedparser.parse('https://www.heise.de/rss/heise-atom.xml')
+            feed = await self._hass.async_add_executor_job(feedparser.parse, self._url)
             items = []
             for element in feed.entries:
                 items.append({
