@@ -12,7 +12,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
-from .coordinator import TagesschauCoordinator
+from .coordinator import HeiseCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ async def async_setup_entry(
 ):
     """Set up the Sensors."""
     # This gets the data update coordinator from hass.data as specified in your __init__.py
-    coordinator: TagesschauCoordinator = hass.data[DOMAIN][
+    coordinator: HeiseCoordinator = hass.data[DOMAIN][
         config_entry.entry_id
     ].coordinator
 
@@ -46,10 +46,10 @@ class NewsSensor(CoordinatorEntity):
     _attr_has_entity_name = True
     _attr_icon = "mdi:newspaper"
     
-    def __init__(self, coordinator: TagesschauCoordinator, id: int) -> None:
+    def __init__(self, coordinator: HeiseCoordinator, id: int) -> None:
         super().__init__(coordinator)
         self._newsid = id
-        self.name = f"Tagesschau - News {id}"
+        self.name = f"Heise - News {id}"
         self.unique_id = f"news-{id}"
 
     @property
