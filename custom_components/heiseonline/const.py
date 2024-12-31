@@ -21,7 +21,7 @@ FEEDS = {
     'https://www.heise.de/developer/rss/der-pragmatische-architekt-blog-atom.xml': 'Der Pragmatische Architekt',
     'https://www.heise.de/developer/rss/modernes-cplusplus-blog-atom.xml': 'Modernes C++',
     'https://www.heise.de/developer/rss/colspan-dev-blog-atom.xml': 'colspan',
-    'https://www.heise.de/developer/rss/ich-roll-dann-mal-aus-atom.xml': '"Ich roll' dann mal aus"',
+    'https://www.heise.de/developer/rss/ich-roll-dann-mal-aus-atom.xml': "Ich roll' dann mal aus",
     'https://www.heise.de/developer/rss/well-organized-blog-atom.xml': 'Well Organized',
     'https://www.heise.de/developer/rss/neuigkeiten-von-der-insel-blog-atom.xml': 'Neuigkeiten von der Insel',
     'https://www.heise.de/developer/rss/von-menschen-und-maschinen-blog-atom.xml': 'Von Menschen und Maschinen',
