@@ -12,7 +12,7 @@ from .const import (
     REGIONS
 )
 
-class EmptyConfigFlow(ConfigFlow, domain=DOMAIN):
+class HeiseConfigFlow(ConfigFlow, domain=DOMAIN):
     VERSION = 2
 
     def __init__(self) -> None:
