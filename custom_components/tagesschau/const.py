@@ -1,4 +1,4 @@
-DOMAIN = "tagesschau"
+DOMAIN = "heiseonline"
 
 REGIONS = {
     1: 'Baden-Württemberg',
