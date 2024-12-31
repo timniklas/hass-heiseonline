@@ -1,6 +1,6 @@
 DOMAIN = "heiseonline"
 
-REGIONS = {
+FEEDS = {
     'https://www.heise.de/rss/heise-atom.xml': 'heise online News',
     'https://www.heise.de/rss/heise-Rubrik-IT-atom.xml': 'heise online IT',
     'https://www.heise.de/rss/heise-Rubrik-Wissen-atom.xml': 'heise online Wissen',
