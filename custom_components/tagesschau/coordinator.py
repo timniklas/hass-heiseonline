@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import timedelta
 import logging
-
+import feedparser
 import re
 
 from homeassistant.config_entries import ConfigEntry
@@ -17,7 +17,7 @@ from aiohttp import ClientError
 from xml.dom import minidom
 
 from homeassistant.const import (
-    CONF_REGION
+    CONF_URL
 )
 
 from .const import DOMAIN
@@ -41,7 +41,7 @@ class HeiseCoordinator(DataUpdateCoordinator):
         """Initialize coordinator."""
 
         # Set variables from values entered in config flow setup
-        self.region_id = config_entry.data[CONF_REGION]
+        self.url = config_entry.data[CONF_URL]
 
         # Initialise DataUpdateCoordinator
         super().__init__(
@@ -63,22 +63,18 @@ class HeiseCoordinator(DataUpdateCoordinator):
         so entities can quickly look up their data.
         """
         try:
-            async with self.websession.get(f'https://www.Heise.de/api2u/news/?regions={self.region_id}') as response:
-                response.raise_for_status()
-                response_json = await response.json()
-    
-                items = []
-                for element in response_json['news']:
-                    if 'firstSentence' in element:
-                        items.append({
-                            "title": element['title'],
-                            "summary": element['firstSentence'],
-                            "updated": element['date'],
-                            "link": element['shareURL']
-                        })
-
-                self.connected = True
-                return HeiseAPIData(newsitems=items)
+            feed = feedparser.parse('https://www.heise.de/rss/heise-atom.xml')
+            items = []
+            for element in feed.entries:
+                items.append({
+                    "title": element['title'],
+                    "summary": element['summary'],
+                    "updated": element['updated'],
+                    "link": element['link']
+                })
+            self.connected = True
+            return HeiseAPIData(newsitems=items)
+                
         except ClientError as err:
             # This will show entities as unavailable by raising UpdateFailed exception
             raise UpdateFailed(f"Error communicating with API: {err}") from err
