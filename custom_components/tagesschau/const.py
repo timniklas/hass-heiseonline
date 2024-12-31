@@ -1,20 +1,14 @@
 DOMAIN = "heiseonline"
 
 REGIONS = {
-    1: 'Baden-Württemberg',
-    2: 'Bayern',
-    3: 'Berlin',
-    4: 'Brandenburg',
-    5: 'Bremen',
-    6: 'Hamburg',
-    7: 'Hessen',
-    8: 'Mecklenburg-Vorpommern',
-    9: 'Niedersachsen',
-    10: 'Nordrhein-Westfalen',
-    11: 'Rheinland-Pfalz',
-    12: 'Saarland',
-    13: 'Sachsen',
-    14: 'Sachsen-Anhalt',
-    15: 'Schleswig-Holstein',
-    16: 'Thüringen'
+    'https://www.heise.de/rss/heise-atom.xml': 'heise online News',
+    'https://www.heise.de/rss/heise-Rubrik-IT-atom.xml': 'heise online IT',
+    'https://www.heise.de/rss/heise-Rubrik-Wissen-atom.xml': 'heise online Wissen',
+    'https://www.heise.de/rss/heise-Rubrik-Mobiles-atom.xml': 'heise online Mobiles',
+    'https://www.heise.de/rss/heise-Rubrik-Entertainment-atom.xml': 'heise online Entertainment',
+    'https://www.heise.de/rss/heise-Rubrik-Netzpolitik-atom.xml': 'heise online Netzpolitik',
+    'https://www.heise.de/rss/heise-Rubrik-Wirtschaft-atom.xml': 'heise online Wirtschaft',
+    'https://www.heise.de/rss/heise-Rubrik-Journal-atom.xml': 'heise online Journal',
+    'https://www.heise.de/rss/heise-top-atom.xml': 'heise online Top-News',
+    'https://www.heise.de/netze/netzwerk-tools/imonitor-internet-stoerungen/feed/aktuelle-meldungen/': 'Netzwerk-Tools – iMonitor – Internet-Störungen'
 }
