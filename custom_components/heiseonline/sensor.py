@@ -34,7 +34,7 @@ async def async_setup_entry(
     
     for index in range(1, 6):
         sensors.append(
-        NewsSensor(coordinator, index)
+        NewsSensor(coordinator, config_entry.unique_id, index)
         )
 
     # Create the sensors.
@@ -46,11 +46,11 @@ class NewsSensor(CoordinatorEntity):
     _attr_has_entity_name = True
     _attr_icon = "mdi:newspaper"
     
-    def __init__(self, coordinator: HeiseCoordinator, id: int) -> None:
+    def __init__(self, coordinator: HeiseCoordinator, unique_id: str, index: int) -> None:
         super().__init__(coordinator)
-        self._newsid = id
-        self.name = f"Heise - News {id}"
-        self.unique_id = f"news-{id}"
+        self._newsid = index
+        self.name = f"Heise - {id}" #TODO get name from config
+        self.unique_id = f"news-{unique_id}-{id}"
 
     @property
     def _newsitem(self):
