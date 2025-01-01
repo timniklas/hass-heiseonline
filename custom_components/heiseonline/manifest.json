@@ -6,6 +6,5 @@
   "documentation": "https://github.com/timniklas/hass-heiseonline",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/timniklas/hass-heiseonline/issues",
-  "version": "0.0.0",
-  "single_config_entry": true
+  "version": "0.0.0"
 }
