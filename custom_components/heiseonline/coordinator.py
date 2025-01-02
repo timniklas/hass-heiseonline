@@ -1,20 +1,14 @@
 from dataclasses import dataclass
 from datetime import timedelta
 import logging
-import feedparser
-import re
+import atoma
+import aiohttp
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (
-    CONF_LOCATION,
-    CONF_NAME,
-    CONF_SELECTOR
-)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from aiohttp import ClientError
-from xml.dom import minidom
 
 from homeassistant.const import (
     CONF_URL
@@ -54,7 +48,7 @@ class HeiseCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=60),
         )
         self.connected: bool = False
-        self._hass = hass
+        self.websession = async_get_clientsession(hass)
 
     async def async_update_data(self):
         """Fetch data from API endpoint.
@@ -63,18 +57,21 @@ class HeiseCoordinator(DataUpdateCoordinator):
         so entities can quickly look up their data.
         """
         try:
-            feed = await self._hass.async_add_executor_job(feedparser.parse, self._url)
-            items = []
-            for element in feed.entries:
-                items.append({
-                    "title": element['title'],
-                    "summary": element['summary'],
-                    "updated": element['updated'],
-                    "link": element['link']
-                })
-            self.connected = True
-            return HeiseAPIData(newsitems=items)
+            async with self.websession.get(self._url) as response:
+                response.raise_for_status()
+                response_bytes = await response.read()
+                feed = atoma.parse_atom_bytes(response_bytes)
                 
+                items = []
+                for entry in feed.entries:
+                    items.append({
+                        "title": entry.title.value,
+                        "summary": entry.summary.value,
+                        "updated": entry.updated,
+                        "link": entry.links[0].href
+                    })
+                self.connected = True
+                return HeiseAPIData(newsitems=items)
         except ClientError as err:
             # This will show entities as unavailable by raising UpdateFailed exception
             raise UpdateFailed(f"Error communicating with API: {err}") from err
