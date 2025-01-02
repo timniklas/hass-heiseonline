@@ -31,10 +31,10 @@ async def async_setup_entry(
     # to a list for each one.
     # This maybe different in your specific case, depending on how your data is structured
     sensors = []
-    
+
     for index in range(1, 6):
         sensors.append(
-        NewsSensor(coordinator, config_entry.unique_id, index)
+        NewsSensor(coordinator, config_entry.title, index)
         )
 
     # Create the sensors.
@@ -46,11 +46,11 @@ class NewsSensor(CoordinatorEntity):
     _attr_has_entity_name = True
     _attr_icon = "mdi:newspaper"
     
-    def __init__(self, coordinator: HeiseCoordinator, unique_id: str, index: int) -> None:
+    def __init__(self, coordinator: HeiseCoordinator, title: str, index: int) -> None:
         super().__init__(coordinator)
         self._newsid = index
-        self.name = f"Heise - {id}" #TODO get name from config
-        self.unique_id = f"news-{unique_id}-{id}"
+        self.name = f"Heise - {title} {index}"
+        self.unique_id = f"-{title}-{index}"
 
     @property
     def _newsitem(self):
