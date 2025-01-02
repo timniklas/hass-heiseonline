@@ -6,5 +6,6 @@
   "documentation": "https://github.com/timniklas/hass-heiseonline",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/timniklas/hass-heiseonline/issues",
+  "requirements": ["atoma"],
   "version": "0.0.0"
 }
