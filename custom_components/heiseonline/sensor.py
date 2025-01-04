@@ -32,7 +32,7 @@ async def async_setup_entry(
     # This maybe different in your specific case, depending on how your data is structured
     sensors = []
 
-    for index in range(0, 5):
+    for index in range(1, 6):
         sensors.append(
         NewsSensor(coordinator, config_entry.title, index)
         )
@@ -54,7 +54,7 @@ class NewsSensor(CoordinatorEntity):
 
     @property
     def _newsitem(self):
-        return self.coordinator.data.newsitems[self._newsid + 1]
+        return self.coordinator.data.newsitems[self._newsid - 1]
 
     @callback
     def _handle_coordinator_update(self) -> None:
