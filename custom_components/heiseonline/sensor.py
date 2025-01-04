@@ -32,7 +32,7 @@ async def async_setup_entry(
     # This maybe different in your specific case, depending on how your data is structured
     sensors = []
 
-    for index in range(1, 6):
+    for index in range(0, 5):
         sensors.append(
         NewsSensor(coordinator, config_entry.title, index)
         )
