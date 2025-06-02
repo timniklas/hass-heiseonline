@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 import logging
 import atoma
+from bs4 import BeautifulSoup
 import aiohttp
 
 from homeassistant.config_entries import ConfigEntry
@@ -60,10 +61,20 @@ class HeiseCoordinator(DataUpdateCoordinator):
             async with self.websession.get(self._url) as response:
                 response.raise_for_status()
                 response_bytes = await response.read()
-                feed = atoma.parse_atom_bytes(response_bytes)
+                cleaned = BeautifulSoup(response_bytes, "xml").prettify()
+                feed = atoma.parse_atom_bytes(cleaned.encode("utf-8"))
                 
                 items = []
                 for entry in feed.entries:
+                    if entry.title is None:
+                        continue
+                    if entry.summary is None:
+                        continue
+                    if entry.updated is None:
+                        continue
+                    if len(entry.links) < 1:
+                        continue
+
                     items.append({
                         "title": entry.title.value,
                         "summary": entry.summary.value,
